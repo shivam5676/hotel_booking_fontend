@@ -8,11 +8,14 @@ export default function Bookings({ user }) {
 
   // Fetch bookings when component loads
   useEffect(() => {
-    fetch(`http://localhost:5000/bookings/${user.id}`)
-      .then((response) => response.json())
-      .then((data) => setBookings(data))
-      .catch((error) => console.error("Error fetching bookings:", error));
-  }, [user.id]);
+    if (user?.id) {
+      console.log(user.id);
+      fetch(`http://localhost:5000/bookings/${user.id}`)
+        .then((response) => response.json())
+        .then((data) => setBookings(data))
+        .catch((error) => console.error("Error fetching bookings:", error));
+    }
+  }, [user?.id]);
 
   // Open check-in modal
   const handleCheckIn = (bookingId) => {
@@ -60,7 +63,9 @@ export default function Bookings({ user }) {
       ) : (
         bookings.map((booking) => (
           <div key={booking.id} className="border p-4 mb-3 rounded shadow">
-            <h2 className="text-lg font-semibold">Hotel: {booking.hotel.name}</h2>
+            <h2 className="text-lg font-semibold">
+              Hotel: {booking.hotel.name}
+            </h2>
             <p>Status: {booking.checkedIn ? "✅ Checked In" : "📌 Booked"}</p>
             {!booking.checkedIn && (
               <button

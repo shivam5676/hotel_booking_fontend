@@ -15,6 +15,7 @@ export default function LoginModal({ setShowLogin, setUser }) {
       const data = await response.json();
 
       if (response.ok) {
+        console.log(data)
         localStorage.setItem("user", JSON.stringify(data));
         setUser(data);
         setShowLogin(false);
